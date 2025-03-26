@@ -25,16 +25,16 @@ public class Main {
                 case 1:
                     System.out.println("Que desea hacer?");
                     System.out.println("1. Ver un Estudiante en especifico");
-                    System.out.println("2. Ver todos los Estudiantes");
+                    System.out.println("2. Ver todos los Estudiantes");//funcion 2 pregunta doble
                     if (sc.nextInt() == 1) {
-                        System.out.println("ingrese el nombre del estudiante");
+                        System.out.println("ingrese el nombre del estudiante");//tostring
                         String nombre = sc.next();
                         System.out.println("ingrese el apellido del estudiante");
                         String apellido = sc.next();
                         int numeroDeEstudian = buscadorEstudiante(nombre, apellido, numeroEstudiantes);
                         System.out.println();
                         System.out.println(numeroEstudiantes.get(numeroDeEstudian).nombre);
-                        System.out.println(numeroEstudiantes.get(numeroDeEstudian).apellido);
+                        System.out.println(numeroEstudiantes.get(numeroDeEstudian).apellido); //cambiar a get
                         System.out.println(numeroEstudiantes.get(numeroDeEstudian).edad);
                         System.out.println(numeroEstudiantes.get(numeroDeEstudian).nota);
                     } else if (sc.nextInt() == 2) {
@@ -62,7 +62,7 @@ public class Main {
                         int edadNuevo = sc.nextInt();
                         sc.nextLine();
                         System.out.print("Nota: ");
-                        double notaNuevo = sc.nextDouble();
+                        double notaNuevo = sc.nextDouble(); // error por la coma
                         System.out.println(notaNuevo);
 
                         numeroEstudiantes.add(new Estudiantes(nombreNuevo, apellidoNuevo, edadNuevo, notaNuevo));
@@ -89,8 +89,8 @@ public class Main {
                     apellidoEstudiante.equals(estudiantes.get(i).getApellido())) {
                 System.out.println("Estudiante encontrado: " + estudiantes.get(i).getNombre() + " " + estudiantes.get(i).getApellido());
                 return i;
-            }
+            } //do while o while
         }
         System.out.println("Estudiante no encontrado");
-        return -1;
+        return i; //arreglar return (-1 con un if)
     }}
