@@ -1,3 +1,5 @@
+import org.w3c.dom.ls.LSOutput;
+
 public class Estudiantes {
     String nombre;
     String apellido;
@@ -42,4 +44,12 @@ public class Estudiantes {
     public void setNota(double nota) {
         this.nota = nota;
     }
+
+    public String toString() {
+        return ("Nombre: " + getNombre() + "\n" +
+                "Apellido: " + getApellido() + "\n" +
+                "Edad: " + getEdad() + "\n" +
+                "Nota: " + getNota());
+    }
+
 }

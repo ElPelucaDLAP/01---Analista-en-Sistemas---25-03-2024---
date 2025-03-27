@@ -7,7 +7,16 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         boolean salidaMenu = false;
-        int cantidadEstudiantesBase = 3;
+        int numeroDeEstudiante;
+        int opcion;
+        int cantidadEstudiante;
+        int contadorEstudiante;
+        int edadNuevo;
+        double notaNuevo;
+        String nombreNuevo;
+        String apellidoNuevo;
+        String nombre;
+        String apellido;
         ArrayList<Estudiantes> numeroEstudiantes = new ArrayList<>();
         numeroEstudiantes.add(new Estudiantes("Tomas", "Diaz", 18, 8.7));
         numeroEstudiantes.add(new Estudiantes("Juan", "Perez", 16, 10));
@@ -17,9 +26,9 @@ public class Main {
         do {
             System.out.println("1.Ver Estudiantes");
             System.out.println("2.Añadir Estudiantes");
-            System.out.println("3.Buscar Estudiante");
+            System.out.println("3.Cambiar notas");
             System.out.println("4.Salir");
-            int opcion = sc.nextInt();
+            opcion = sc.nextInt();
             sc.nextLine();
             switch (opcion) {
                 case 1:
@@ -27,50 +36,51 @@ public class Main {
                     System.out.println("1. Ver un Estudiante en especifico");
                     System.out.println("2. Ver todos los Estudiantes");//funcion 2 pregunta doble
                     if (sc.nextInt() == 1) {
-                        System.out.println("ingrese el nombre del estudiante");//tostring
-                        String nombre = sc.next();
-                        System.out.println("ingrese el apellido del estudiante");
-                        String apellido = sc.next();
-                        int numeroDeEstudian = buscadorEstudiante(nombre, apellido, numeroEstudiantes);
-                        System.out.println();
-                        System.out.println(numeroEstudiantes.get(numeroDeEstudian).nombre);
-                        System.out.println(numeroEstudiantes.get(numeroDeEstudian).apellido); //cambiar a get
-                        System.out.println(numeroEstudiantes.get(numeroDeEstudian).edad);
-                        System.out.println(numeroEstudiantes.get(numeroDeEstudian).nota);
+                        numeroDeEstudiante = preguntarDatos(numeroEstudiantes);
+                        if (numeroDeEstudiante == -1) {
+                            System.out.println("Estudiante no encontrado");
+                        } else {
+                            System.out.println(numeroEstudiantes.get(numeroDeEstudiante).toString());
+                        }
                     } else if (sc.nextInt() == 2) {
                         for (int i = 0; i < numeroEstudiantes.size(); i++) {
-                            System.out.println(numeroEstudiantes.get(i).nombre);
-                            System.out.println(numeroEstudiantes.get(i).apellido);
-                            System.out.println(numeroEstudiantes.get(i).edad);
-                            System.out.println(numeroEstudiantes.get(i).nota);
+                            System.out.println(numeroEstudiantes.get(i).toString());
                         }
                     }
                     break;
                 case 2:
                     System.out.println("cuantos estudiantes desea añadir");
-                    int cantidadEstudiante = sc.nextInt();
+                    cantidadEstudiante = sc.nextInt();
                     sc.nextLine();
-                    int contadorEstudiante = 0;
+                    contadorEstudiante = 0;
                     do {
                         System.out.print("Nombre: ");
-                        String nombreNuevo = sc.nextLine();
-
+                        nombreNuevo = sc.nextLine();
                         System.out.print("Apellido: ");
-                        String apellidoNuevo = sc.nextLine();
-
+                        apellidoNuevo = sc.nextLine();
                         System.out.print("Edad: ");
-                        int edadNuevo = sc.nextInt();
+                        edadNuevo = sc.nextInt();
                         sc.nextLine();
                         System.out.print("Nota: ");
-                        double notaNuevo = sc.nextDouble(); // error por la coma
+                        notaNuevo = sc.nextDouble(); // error por la coma
                         System.out.println(notaNuevo);
-
                         numeroEstudiantes.add(new Estudiantes(nombreNuevo, apellidoNuevo, edadNuevo, notaNuevo));
                         contadorEstudiante++;
                     } while (contadorEstudiante < cantidadEstudiante);
                     break;
                 case 3:
-
+                    System.out.println("cuantos estudiantes desea cambiar");
+                    System.out.println("1. Cambiar un Estudiante en especifico");
+                    System.out.println("2. Cambiar todos");
+                    if (sc.nextInt() == 2) {
+                        for (int i = 0; i < numeroEstudiantes.size(); i++) {
+                            numeroEstudiantes.get(i).setNota(sc.nextDouble());
+                        }
+                    } else if (sc.nextInt() == 1) {
+                        numeroDeEstudiante = preguntarDatos(numeroEstudiantes);
+                        System.out.println("Escriba la nueva nota");
+                        numeroEstudiantes.get(numeroDeEstudiante).setNota(sc.nextDouble());
+                    }
                 case 4:
                     System.out.println("Adios");
                     salidaMenu = true;
@@ -79,18 +89,32 @@ public class Main {
                     System.out.println("Opción no válida, intente de nuevo.");
             }
         } while (!salidaMenu);
+    }
 
-
+    public static int preguntarDatos(ArrayList<Estudiantes> estudiantes) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("ingrese el nombre del estudiante");//tostring
+        String nombre = sc.next();
+        System.out.println("ingrese el apellido del estudiante");
+        String apellido = sc.next();
+        return buscadorEstudiante(nombre, apellido, estudiantes);
     }
 
     public static int buscadorEstudiante(String nombreEstudiante, String apellidoEstudiante, ArrayList<Estudiantes> estudiantes) {
-        for (int i = 0; i < estudiantes.size(); i++) {
+        boolean encontrado = false;
+        int i = 0;
+        do {
             if (nombreEstudiante.equals(estudiantes.get(i).getNombre()) &&
                     apellidoEstudiante.equals(estudiantes.get(i).getApellido())) {
                 System.out.println("Estudiante encontrado: " + estudiantes.get(i).getNombre() + " " + estudiantes.get(i).getApellido());
-                return i;
-            } //do while o while
+                encontrado = true;
+            } else {
+                i++;
+            }
+        } while (i < estudiantes.size() && !encontrado);
+        if (!encontrado) {
+            i = -1;
         }
-        System.out.println("Estudiante no encontrado");
-        return i; //arreglar return (-1 con un if)
-    }}
+        return i;
+    }
+}
