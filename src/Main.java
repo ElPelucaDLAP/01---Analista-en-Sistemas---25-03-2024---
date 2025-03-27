@@ -78,8 +78,13 @@ public class Main {
                         }
                     } else if (sc.nextInt() == 1) {
                         numeroDeEstudiante = preguntarDatos(numeroEstudiantes);
-                        System.out.println("Escriba la nueva nota");
-                        numeroEstudiantes.get(numeroDeEstudiante).setNota(sc.nextDouble());
+                        if (numeroDeEstudiante == -1) {
+                            System.out.println("Estudiante no encontrado");
+                        } else {
+                            System.out.println("Escriba la nueva nota");
+                            numeroEstudiantes.get(numeroDeEstudiante).setNota(sc.nextDouble());
+                        }
+
                     }
                 case 4:
                     System.out.println("Adios");
