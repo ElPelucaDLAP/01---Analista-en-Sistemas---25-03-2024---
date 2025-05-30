@@ -13,6 +13,7 @@ public class Main {
         int contadorEstudiante;
         int edadNuevo;
         double notaNuevo;
+        String apa = "Pito";
         String nombreNuevo;
         String apellidoNuevo;
         String nombre;
